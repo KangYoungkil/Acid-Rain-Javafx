@@ -1,3 +1,4 @@
+
 import de.saxsys.mvvmfx.easydi.MvvmfxEasyDIApplication
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
@@ -5,6 +6,10 @@ import javafx.scene.Scene
 import javafx.stage.Stage
 import utils.GraphicUtils
 import utils.ResourceHelper
+
+
+
+
 
 class MainApplication : MvvmfxEasyDIApplication() {
 
@@ -17,6 +22,7 @@ class MainApplication : MvvmfxEasyDIApplication() {
     override fun startMvvmfx(primaryStage: Stage) {
         val fxmlLoader = FXMLLoader(ResourceHelper.convertURL(layoutName))
         val root = fxmlLoader.load<Parent>()
+
         primaryStage.title = title
 
         val point = GraphicUtils.getDisplay()

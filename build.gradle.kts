@@ -19,6 +19,7 @@ dependencies {
     compile("de.saxsys:mvvmfx-easydi:1.7.0")
 
     compile("io.reactivex.rxjava2:rxkotlin:2.2.0")
+    compile ("io.reactivex.rxjava2:rxjavafx:2.2.2")
 }
 
 configure<JavaPluginConvention> {
