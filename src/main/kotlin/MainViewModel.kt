@@ -10,6 +10,7 @@ import javafx.scene.Node
 import javafx.scene.control.Label
 import javafx.scene.control.SplitPane
 import javafx.scene.layout.HBox
+import javafx.scene.layout.Pane
 import java.util.concurrent.TimeUnit
 
 
@@ -48,6 +49,9 @@ class MainViewModel {
     val labelY = ReadOnlyDoubleWrapper()
     val speedWrapper = ReadOnlyIntegerWrapper()
 
+
+    val paneWrapper = ReadOnlyObjectWrapper<HBox>()
+
     private val INTERVAL_TIME: Long = 1 // seconds
     val trigger = Observable.interval(INTERVAL_TIME, TimeUnit.SECONDS)
 
@@ -56,6 +60,8 @@ class MainViewModel {
 
         var stage = stageObservable.filter { it.children.isEmpty() }.blockingFirst()
         speedWrapper.value = speedSample()
+
+        paneWrapper.value = stage
 
         labelObservable
                 .map {
@@ -92,6 +98,7 @@ class MainViewModel {
                 labelY.value = 0.0
                 correctString.value = worModel.sampleWord()
                 speedWrapper.value = speedSample()
+                paneWrapper.value = stageSample()
             }
             currentInput.value = ""
 

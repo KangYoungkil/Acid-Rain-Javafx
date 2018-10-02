@@ -1,33 +1,41 @@
-
 import io.reactivex.Observable
+import io.reactivex.ObservableSource
+import io.reactivex.rxkotlin.zipWith
 import io.reactivex.schedulers.Schedulers
 import utils.ResourceHelper
 import java.util.concurrent.TimeUnit
+import java.util.Random
+
 
 sealed class Model {
     object WordModel : Model() {
 
         val file = ResourceHelper.convertFile("dictionary.txt")
         private val words: List<String>
+        private val textsObservable: Observable<String>
+
+        private val INTERVAL_TIME: Long = 1 // seconds
+        val trigger = Observable.interval(INTERVAL_TIME, TimeUnit.MICROSECONDS)
 
         init {
             words = file.readLines(Charsets.UTF_8)
-        }
 
-        fun words(): Observable<String> {
+//            textsObservable = Observable.fromArray(words).flatMapIterable { it -> it }.sorted().filter { it.length > 2 }.concatMap { it->
+//                Observable.just(it).zipWith(trigger).map { it.first }
+//            }
 
-            val texts = Observable
+
+            textsObservable = Observable
                     .just(words)
                     .observeOn(Schedulers.io())
                     .flatMapIterable { it -> it }
                     .sorted()
                     .filter { it.length > 2 }
                     .repeat()
-            return texts
         }
 
         fun sampleWord(): String {
-            return words().sample(1,TimeUnit.MICROSECONDS).take(1).blockingFirst()
+            return textsObservable.sample(1, TimeUnit.MICROSECONDS).blockingFirst()
         }
 
     }
