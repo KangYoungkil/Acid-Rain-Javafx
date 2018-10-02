@@ -27,7 +27,7 @@ sealed class Model {
         }
 
         fun sampleWord(): String {
-            return words().sample(1,TimeUnit.MILLISECONDS).blockingFirst()
+            return words().sample(1,TimeUnit.MICROSECONDS).take(1).blockingFirst()
         }
 
     }
