@@ -11,13 +11,10 @@ sealed class Model {
     object WordModel : Model() {
 
         val file = ResourceHelper.convertFile("dictionary.txt")
-        private val words: List<String>
         private val textsObservable: Observable<String>
 
         init {
-            words = file.readLines(Charsets.UTF_8)
-            textsObservable = Observable
-                    .just(words)
+            textsObservable = Observable.fromArray(file.readLines(Charsets.UTF_8))
                     .observeOn(Schedulers.io())
                     .flatMapIterable { it -> it }
                     .filter { it.length > 2 }
